@@ -3,7 +3,7 @@ import { DeleteUser, getAuser, getUsers, UpdateUser } from "../controllers/user.
 
 const UserRoute = Router()
 
-UserRoute.get('/', getUsers).get('/user', getAuser)
-.put('/user', UpdateUser).delete('/user', DeleteUser)
+UserRoute.get('/', getUsers).get('/:user', getAuser)
+.put('/:user', UpdateUser).delete('/:user', DeleteUser)
 
 export default UserRoute
