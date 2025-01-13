@@ -44,7 +44,11 @@ export const Login = () =>{
         }
         const user = UserModel.findOne({username});
         if(!user){
-            return res.status(401).json({message:"Username does not exist"})
+            return res.status(404).json({message:"Username does not exist"})
+        }
+        const correctPsw = bcrypt.compare(password, user.password);
+        if(!correctPsw){
+            return res.status(401).json({message:"Incorrect password"}) 
         }
         const token = jwt.sign(
             {
@@ -58,6 +62,30 @@ export const Login = () =>{
             }
         )
         return res.status(200).json({message:"Login successful", user:{_id, email, username, token}})
+    } catch (error) {
+        return res.status(500).json({message:"Internal error, Your backend guy is sleeping", error})
+    }
+}
+
+
+export const updatePassword = async(req, res) => {
+    try {
+        const username= req.user.username
+        const {oldPassword, newPassword} = req.body
+        const user = await UserModel.findOne({username});
+        if(!user){
+            return res.status(404).json({message:"User not found"})
+        }
+        const _id = user._id
+        const matchedPassword = await bcrypt.compare(oldPassword, user.password)
+        if(!matchedPassword){
+            return res.status(400).json({message:"Your initial password is incorrect"})
+        }
+        const saltRounds = await bcrypt.genSalt(10)
+        const hashedPasswod = await bcrypt.hash(newPassword, saltRounds)
+        await UserModel.findByIdAndUpdate(_id, {password:hashedPasswod}, {new:true})
+        return res.status(201).json({message:"Password updated successfully.."})
+
     } catch (error) {
         return res.status(500).json({message:"Internal error, Your backend guy is sleeping", error})
     }
