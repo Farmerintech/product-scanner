@@ -61,9 +61,9 @@ export const Login = async (req, res) =>{
                 expiresIn:process.env.LIFE_TIME
             }
         )
-        return res.status(200).json({message:"Login successful", user:{_id, email, username, token}})
+        return res.status(200).json({message:"Login successful", user:{_id:user._id, email:user.email, username, token}})
     } catch (error) {
-        return res.status(500).json({message:"Internal error, Your backend guy is sleeping", error})
+        return res.status(500).json({message:"Internal error, Your backend guy is sleeping", error:error.message})
     }
 }
 

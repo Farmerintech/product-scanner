@@ -16,7 +16,7 @@ connectDB();
 
 app.use('/api/v1/auth', AuthRoute);
 app.use('/api/v1/users', UserRoute)
-app.use('/api/v1/add_product', ProductRoute)
+app.use('/api/v1/products', ProductRoute)
 
 app.listen(PORT, ()=>{
 console.log(`Server starts at PORT at ${PORT}`);

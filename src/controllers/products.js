@@ -12,7 +12,6 @@ export const AddProduct = async (req, res) => {
         const NewProduct = await ProductModel.create({
             name,
             Qrcode,
-            Manufacturer
         });
 
         return res.status(201).json({ message: "New product posted successfully.", NewProduct });
