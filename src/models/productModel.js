@@ -7,7 +7,6 @@ const ProductSchema = new mongoose.Schema({
     },
     description:{
         type:String,
-        required:true,
     },
     Qrcode:{
         type:String,
@@ -15,7 +14,6 @@ const ProductSchema = new mongoose.Schema({
     },
     manufacturer:{
         type:String,
-        required:true,
     },
 })
 
