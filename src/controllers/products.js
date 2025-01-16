@@ -20,6 +20,32 @@ export const AddProduct = async (req, res) => {
         return res.status(500).json({ message: error.message });
     }
 };
+export const getProducts = async (req, res) =>{
+    try {
+        const products = await ProductModel.find();
+        if(!products){
+          return res.status(404).json({message:"Empty product"})
+       }
+       return res.status(200).json({message:"products retrieved", products})
+    } catch (error) {
+        return res.status(500).json({ message: error.message });  
+    }
+}
+
+export const getAProduct = async (req, res) => {
+    try {
+        const { id } = req.params;
+
+        // Check if product exists
+        const product = await ProductModel.findById(id);
+        if (!product) {
+            return res.status(404).json({ message: "Product not found." });
+        }
+        return res.status(200).json({ message: "Product updated successfully.", product });
+    } catch (error) {
+        return res.status(500).json({ message: error.message });
+    }
+};
 
 // Edit an existing product
 export const EditProduct = async (req, res) => {
