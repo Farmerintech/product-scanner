@@ -91,11 +91,11 @@ export const DeleteProduct = async (req, res) => {
 
 export const ScanProduct = async (req, res) => {
     try {
-        const { name, Qr } = req.body; // Get 'name' from request body
+        const { name, Qrcode } = req.body; // Get 'name' from request body
 
         // Search for a product matching the QR code or name
         const product = await ProductModel.findOne({
-            $or: [{ Qr }, { name }]
+            $or: [{ Qrcode }, { name }]
         });
 
         if (!product) {
@@ -105,15 +105,21 @@ export const ScanProduct = async (req, res) => {
         }
 
         // Check if the QR code matches but the name does not
-        if (product.Qrcode === Qr && product.name !== name) {
+        if (product.Qrcode === Qrcode && product.name !== name) {
             return res.status(200).json({
-                message: `The QR code scanned matched ${product.name}. Are you sure you entered the correct product name? otherwise, this product is fake`,
+                message: `The QR code scanned matched product "${product.name}". Are you sure you entered the correct product name? otherwise, this product is fake`,
+                product
+            });
+        }
+        if (product.Qrcode !== Qrcode && product.name === name) {
+            return res.status(200).json({
+                message: `Mismatched Barcode, fake product`,
                 product
             });
         }
 
         // Check if both QR code and name match
-        if (product.Qrcode === Qr && product.name === name) {
+        if (product.Qrcode === Qrcode && product.name === name) {
             return res.status(200).json({
                 message: "Product scanned and checked successfully: original.",
                 product
