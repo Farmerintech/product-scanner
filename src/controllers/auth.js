@@ -36,17 +36,17 @@ export const Register = async (req, res) =>{
         return res.status(500).json({message:"Internal error, Your backend guy is sleeping", error})
     }
 }
-export const Login = () =>{
+export const Login = async (req, res) =>{
     try {
         const {username, password} = req.body
         if(!username || !password){
             return res.status(401).json({message:"Username, and password is required"})
         }
-        const user = UserModel.findOne({username});
+        const user = await UserModel.findOne({username});
         if(!user){
             return res.status(404).json({message:"Username does not exist"})
         }
-        const correctPsw = bcrypt.compare(password, user.password);
+        const correctPsw = await bcrypt.compare(password, user.password);
         if(!correctPsw){
             return res.status(401).json({message:"Incorrect password"}) 
         }
