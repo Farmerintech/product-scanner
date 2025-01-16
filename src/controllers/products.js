@@ -91,8 +91,7 @@ export const DeleteProduct = async (req, res) => {
 
 export const ScanProduct = async (req, res) => {
     try {
-        const { Qr } = req.params; // Get 'Qr' from request parameters
-        const { name } = req.body; // Get 'name' from request body
+        const { name, Qr } = req.body; // Get 'name' from request body
 
         // Search for a product matching the QR code or name
         const product = await ProductModel.findOne({
