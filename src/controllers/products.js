@@ -1,6 +1,9 @@
 export const AddProduct = async () =>{
     try {
-        const {name, description, Qrcode, Manufacturer } = req.body
+        const {name, Qrcode, } = req.body
+        if(!name || !Qrcode || !Manufacturer){
+            return res
+        }
     } catch (error) {
         
     }
