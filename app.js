@@ -7,7 +7,7 @@ import UserRoute from "./src/routes/userRoute.js";
 import cors from "cors"
 import ProductRoute from "./src/routes/productRoutes.js";
 const app = express();
-//const PORT = process.env.PORT
+const PORT = process.env.PORT
 app.use(express.urlencoded({extended:false}))
 app.use(express.json())
 app.use(cors(
