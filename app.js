@@ -10,11 +10,13 @@ const app = express();
 const PORT = process.env.PORT
 app.use(express.urlencoded({extended:false}))
 app.use(express.json())
+
+connectDB();
 app.use(cors(
 {origin:"*"}
 ))
 
-connectDB();
+
 app.use(express.static('client'))
 app.use('/api/v1/auth', AuthRoute);
 app.use('/api/v1/users', UserRoute)
