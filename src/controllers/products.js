@@ -4,7 +4,10 @@ import { ProductModel } from "../models/productModel.js";
 export const AddProduct = async (req, res) => {
     try {
         const { name, Qrcode } = req.body;
-
+        const alreadyAdded = await ProductModel.findOne({name, Qrcode})
+        if(alreadyAdded){
+            return res.status(401).json({ message: "Product already exist in the database, edit instead" });
+        }
         if (!name || !Qrcode) {
             return res.status(400).json({ message: "Please enter product name and QR code." });
         }
