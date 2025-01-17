@@ -10,7 +10,9 @@ const app = express();
 const PORT = process.env.PORT
 app.use(express.urlencoded({extended:false}))
 app.use(express.json())
-app.use(cors())
+app.use(cors(
+{origin:"*"}
+))
 
 connectDB();
 app.use(express.static('client'))
