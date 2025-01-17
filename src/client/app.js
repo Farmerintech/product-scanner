@@ -29,8 +29,9 @@ const fetchData = async () =>{
 
 
   const productData = {
-   name:"sugar",
-   Qrcode:"12345678"
+   name:"rocky bites",
+   Qrcode:"6154000122966",
+   manufacturer:"YALE FOODS LIMITED"
 }
 
 const addProduct = async () =>{

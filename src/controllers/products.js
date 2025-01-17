@@ -3,7 +3,7 @@ import { ProductModel } from "../models/productModel.js";
 // Add a new product
 export const AddProduct = async (req, res) => {
     try {
-        const { name, Qrcode } = req.body;
+        const { name, Qrcode, manufacturer } = req.body;
         const alreadyAdded = await ProductModel.findOne({name, Qrcode})
         if(alreadyAdded){
             return res.status(401).json({ message: "Product already exist in the database, edit instead" });
@@ -15,6 +15,7 @@ export const AddProduct = async (req, res) => {
         const NewProduct = await ProductModel.create({
             name,
             Qrcode,
+            manufacturer
         });
 
         return res.status(201).json({ message: "New product posted successfully.", NewProduct });
@@ -112,14 +113,17 @@ export const ScanProduct = async (req, res) => {
             return res.status(200).json({
                 message: `The QR code scanned matched product "${product.name}". Are you sure you entered the correct product name? otherwise, this product is fake`,
                 product,
-                status:"Not valid"
+                status:"Not valid",
+                scannedAt:new Date()
             });
         }
         if (product.Qrcode !== Qrcode && product.name === name) {
             return res.status(200).json({
                 message: `Mismatched Barcode, fake product`,
                 product,
-                status:"Not valid"
+                status:"Not valid",
+                scannedAt:new Date()
+
             });
         }
 
@@ -128,12 +132,13 @@ export const ScanProduct = async (req, res) => {
             return res.status(200).json({
                 message: "Product scanned and checked successfully: original.",
                 product,
-                status:"Valid"
+                status:"Valid",
+                scannedAt:new Date()
             });
         }
 
     } catch (error) {
-        // Handle unexpected errors
+  
         return res.status(500).json({ message: "An error occurred.", error: error.message });
     }
 };
