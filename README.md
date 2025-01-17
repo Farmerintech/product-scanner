@@ -4,7 +4,8 @@
 
 ## Overview
 
-The **Product Scanner API** allows users to:
+The **Product Scanner API** allows users(admin) to:
+- Register 
 - Log in to obtain an authentication token.
 - Add a product to the system by an admin or loggedin user.
 - Scan products using a Barcode or Qrcode.
@@ -12,8 +13,17 @@ The **Product Scanner API** allows users to:
 This guide provides details on basic usage, endpoints, and sample code snippets for implementation.
 
 ---
-
-## Authentication
+## Register
+### **POST** `/api/v1/auth/Register`
+**Request Body:**
+```json
+{
+  "username": "Shukurahlillah",
+  "email":"Shukurahlillah@gmail.com",
+  "password": "12345678"
+}
+```
+## Login and Authentication
 
 ### **POST** `/api/v1/auth/login`
 
@@ -188,6 +198,14 @@ scanProduct();
 ```
 
 ---
+## Other endpoints
+- Edit product: **PUT** `/api/v1/products/:productId`
+- Delete product: **DELETE** `/api/v1/products/:productId`
+- GET ALL product: **PUT** `/api/v1/products/get_products`
+- Get a single product: **PUT** `/api/v1/products/:productId`
+- Get all users: **PUT** `/api/v1/users`
+
+
 
 ## Notes
 
