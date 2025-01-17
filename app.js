@@ -13,7 +13,7 @@ app.use(express.json())
 app.use(cors())
 
 connectDB();
-
+app.use(express.static('client'))
 app.use('/api/v1/auth', AuthRoute);
 app.use('/api/v1/users', UserRoute)
 app.use('/api/v1/products', ProductRoute)

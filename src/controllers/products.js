@@ -108,13 +108,15 @@ export const ScanProduct = async (req, res) => {
         if (product.Qrcode === Qrcode && product.name !== name) {
             return res.status(200).json({
                 message: `The QR code scanned matched product "${product.name}". Are you sure you entered the correct product name? otherwise, this product is fake`,
-                product
+                product,
+                status:"Not valid"
             });
         }
         if (product.Qrcode !== Qrcode && product.name === name) {
             return res.status(200).json({
                 message: `Mismatched Barcode, fake product`,
-                product
+                product,
+                status:"Not valid"
             });
         }
 
@@ -122,7 +124,8 @@ export const ScanProduct = async (req, res) => {
         if (product.Qrcode === Qrcode && product.name === name) {
             return res.status(200).json({
                 message: "Product scanned and checked successfully: original.",
-                product
+                product,
+                status:"Valid"
             });
         }
 
