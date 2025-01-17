@@ -202,8 +202,8 @@ scanProduct();
 - Edit product: **PUT** `/api/v1/products/:productId`
 - Delete product: **DELETE** `/api/v1/products/:productId`
 - GET ALL product: **PUT** `/api/v1/products/get_products`
-- Get a single product: **PUT** `/api/v1/products/:productId`
-- Get all users: **PUT** `/api/v1/users`
+- Get a single product: **GET** `/api/v1/products/:productId`
+- Get all users: **GET** `/api/v1/users`
 
 
 
