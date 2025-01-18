@@ -12,7 +12,16 @@ const PORT = process.env.PORT
 app.use(express.urlencoded({extended:false}))
 app.use(express.json())
 app.use(cors({ origin: true }));
+app.use(
+  cors({
+    origin: ["https://localhost:5173", "*"],
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    credentials: true,
+  })
+);
 
+// Handle preflight requests
+app.options("*", cors());
 
 
 
