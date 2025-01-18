@@ -10,8 +10,7 @@ const app = express();
 const PORT = process.env.PORT
 app.use(express.urlencoded({extended:false}))
 app.use(express.json())
-app.use(cors())
-
+app.use(cors({ origin: true }));
 connectDB();
 app.use(express.static('client'))
 app.use('/api/v1/auth', AuthRoute);
