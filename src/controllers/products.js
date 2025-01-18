@@ -3,18 +3,19 @@ import { ProductModel } from "../models/productModel.js";
 // Add a new product
 export const AddProduct = async (req, res) => {
     try {
-        const { name, Qrcode, manufacturer } = req.body;
-        const alreadyAdded = await ProductModel.findOne({name, Qrcode})
+        const { name, barcode, manufacturer, category } = req.body;
+        const alreadyAdded = await ProductModel.findOne({name, barcode})
         if(alreadyAdded){
             return res.status(401).json({ message: "Product already exist in the database, edit instead" });
         }
-        if (!name || !Qrcode) {
+        if (!name || !barcode) {
             return res.status(400).json({ message: "Please enter product name and QR code." });
         }
 
         const NewProduct = await ProductModel.create({
             name,
-            Qrcode,
+            barcode,
+            category,
             manufacturer
         });
 
@@ -95,13 +96,13 @@ export const DeleteProduct = async (req, res) => {
 
 export const ScanProduct = async (req, res) => {
     try {
-        const { Qrcode } = req.body; // Get 'name' from request body
-        if(!Qrcode){
-            return res.status(401).json({message:"Qrcode is required to scan product"})
+        const { barcode } = req.body; // Get 'name' from request body
+        if(!barcode){
+            return res.status(401).json({message:"barcode is required to scan product"})
         }
         // Search for a product matching the QR code or name
         const product = await ProductModel.findOne({
-            Qrcode
+            barcode
         });
 
         if (!product) {
@@ -112,21 +113,22 @@ export const ScanProduct = async (req, res) => {
 
         // Check if the QR code matches but the name does not
      
-        if (product.Qrcode !== Qrcode) {
+        if (product.barcode !== barcode) {
             return res.status(200).json({
                 message: `The QR code scanned does not match any product.`,
-                product,
-                status:"Not valid",
-                scannedAt:new Date()
-
             });
         }
 
         // Check if both QR code.
-        if (product.Qrcode === Qrcode) {
+        if (product.barcode === barcode) {
             return res.status(200).json({
                 message: `Product scanned matched "${product.name}" and checked successfully.`,
-                product,
+                product:{
+                    "Product Name":product.name,
+                    Manufacturer:product.manufacturer,
+                    category:product.category !== '' ? product.category : "food",
+                    Authenticity:Geninue
+                },
                 status:"Valid",
                 scannedAt:new Date()
             });
