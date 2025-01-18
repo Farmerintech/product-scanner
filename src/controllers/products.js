@@ -95,11 +95,11 @@ export const DeleteProduct = async (req, res) => {
 
 export const ScanProduct = async (req, res) => {
     try {
-        const { name, Qrcode } = req.body; // Get 'name' from request body
+        const { Qrcode } = req.body; // Get 'name' from request body
 
         // Search for a product matching the QR code or name
         const product = await ProductModel.findOne({
-            $or: [{ Qrcode }, { name }]
+            Qrcode
         });
 
         if (!product) {
@@ -109,17 +109,10 @@ export const ScanProduct = async (req, res) => {
         }
 
         // Check if the QR code matches but the name does not
-        if (product.Qrcode === Qrcode && product.name !== name) {
+     
+        if (product.Qrcode !== Qrcode) {
             return res.status(200).json({
-                message: `The QR code scanned matched product "${product.name}". Are you sure you entered the correct product name? otherwise, this product is fake`,
-                product,
-                status:"Not valid",
-                scannedAt:new Date()
-            });
-        }
-        if (product.Qrcode !== Qrcode && product.name === name) {
-            return res.status(200).json({
-                message: `Mismatched Barcode, fake product`,
+                message: `The QR code scanned does not match any product.`,
                 product,
                 status:"Not valid",
                 scannedAt:new Date()
@@ -127,10 +120,10 @@ export const ScanProduct = async (req, res) => {
             });
         }
 
-        // Check if both QR code and name match
-        if (product.Qrcode === Qrcode && product.name === name) {
+        // Check if both QR code.
+        if (product.Qrcode === Qrcode) {
             return res.status(200).json({
-                message: "Product scanned and checked successfully: original.",
+                message: `Product scanned matched "${product.name}" and checked successfully.`,
                 product,
                 status:"Valid",
                 scannedAt:new Date()
