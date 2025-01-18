@@ -8,7 +8,7 @@ const ProductSchema = new mongoose.Schema({
     description:{
         type:String,
     },
-    Qrcode:{
+    barcode:{
         type:String,
         required:true,
     },
