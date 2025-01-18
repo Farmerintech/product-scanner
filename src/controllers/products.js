@@ -127,7 +127,7 @@ export const ScanProduct = async (req, res) => {
                     "Product Name":product.name,
                     Manufacturer:product.manufacturer,
                     category:product.category !== '' ? product.category : "food",
-                    Authenticity:Geninue
+                    Authenticity:"Geninue"
                 },
                 status:"Valid",
                 scannedAt:new Date()
